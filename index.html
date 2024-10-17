@@ -46,24 +46,102 @@
 </body>
 </html> -->
 
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Itinerary Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="number"],
+        input[type="text"] {
+            width: calc(100% - 12px);
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border 0.3s;
+        }
+
+        input[type="number"]:focus,
+        input[type="text"]:focus {
+            border: 1px solid #3498db;
+            outline: none;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        h2 {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        pre {
+            background: #e7f3fe;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
 </head>
+
 <body>
     <h1>Personalized Travel Itinerary Generator</h1>
     <form id="itineraryForm">
         <label for="budget">Budget: $</label>
-        <input type="number" id="budget" name="budget" required><br><br>
+        <input type="number" id="budget" name="budget" required placeholder="Enter your budget">
 
-        <label for="days">Number of Days: </label>
-        <input type="number" id="days" name="days" required><br><br>
+        <label for="days">Number of Days:</label>
+        <input type="number" id="days" name="days" required placeholder="Enter number of days">
 
-        <label for="interest">Interest: </label>
-        <input type="text" id="interest" name="interest" required><br><br>
+        <label for="interest">Interest:</label>
+        <input type="text" id="interest" name="interest" required placeholder="Enter your interests">
 
         <button type="submit">Generate Itinerary</button>
     </form>
@@ -75,32 +153,22 @@
         const form = document.getElementById('itineraryForm');
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-
             const budget = document.getElementById('budget').value;
             const days = document.getElementById('days').value;
             const interest = document.getElementById('interest').value;
 
-            try {
-                const response = await fetch('https://your-project-name.up.railway.app/generateItinerary', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ budget: budget, days: days, interest: interest }),
-                });
+            const response = await fetch('http://localhost:9080/generateItinerary', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ budget: budget, days: days, interest: interest }),
+            });
 
-                if (!response.ok) {
-                    throw new Error('Network response was not ok: ' + response.statusText);
-                }
-
-                const data = await response.json();
-                document.getElementById('result').textContent = JSON.stringify(data, null, 2);
-            } catch (error) {
-                console.error('There has been a problem with your fetch operation:', error);
-                document.getElementById('result').textContent = 'Error: ' + error.message;
-            }
+            const data = await response.json();
+            document.getElementById('result').textContent = JSON.stringify(data, null, 2);
         });
     </script>
 </body>
-</html>
 
+</html>
