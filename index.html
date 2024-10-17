@@ -81,7 +81,7 @@
             const interest = document.getElementById('interest').value;
 
             try {
-                const response = await fetch('http://localhost:9080/generateItinerary', {
+                const response = await fetch('https://your-project-name.up.railway.app/generateItinerary', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
